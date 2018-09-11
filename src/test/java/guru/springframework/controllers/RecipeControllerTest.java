@@ -74,6 +74,13 @@ public class RecipeControllerTest {
     }
 
     @Test
+    public void shouldReturnBadRequestStatusForInvalidRecipeId() throws Exception {
+        mockMvc.perform(get("/recipe/invalid_id/show"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("400error"));
+    }
+
+    @Test
     public void shouldGetNewRecipeForm() throws Exception {
         Recipe recipe = new Recipe();
         recipe.setId(12L);
