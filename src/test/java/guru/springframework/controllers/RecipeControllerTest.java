@@ -44,9 +44,9 @@ public class RecipeControllerTest {
     public void shouldGetNewRecipe() throws Exception {
 
         mockMvc.perform(get("/recipe/new"))
-            .andExpect(status().isOk())
-            .andExpect(model().attributeExists("recipe"))
-            .andExpect(view().name("recipe/recipeform"));
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("recipe"))
+                .andExpect(view().name("recipe/recipeform"));
     }
 
     @Test
@@ -89,9 +89,9 @@ public class RecipeControllerTest {
         when(service.findById(anyLong())).thenReturn(recipe);
 
         mockMvc.perform(get("/recipe/12/show"))
-            .andExpect(status().isOk())
-            .andExpect(view().name("recipe/show"))
-            .andExpect(model().attributeExists("recipe"));
+                .andExpect(status().isOk())
+                .andExpect(view().name("recipe/show"))
+                .andExpect(model().attributeExists("recipe"));
     }
 
     @Test
@@ -102,12 +102,13 @@ public class RecipeControllerTest {
         when(service.saveRecipeCommand(any())).thenReturn(command);
 
         mockMvc.perform(post("/recipe")
-        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-        .param("id", "")
-        .param("description", "desc")
-        .param("directions", "Cook!"))
-            .andExpect(status().is3xxRedirection())
-            .andExpect(view().name("redirect:/recipe/19/show"));
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("id", "")
+                .param("cookTime", "3000")
+                .param("description", "desc")
+                .param("directions", "Cook!"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/recipe/19/show"));
     }
 
     @Test
@@ -133,9 +134,9 @@ public class RecipeControllerTest {
         when(service.findCommandById(anyLong())).thenReturn(command);
 
         mockMvc.perform(get("/recipe/12/update"))
-            .andExpect(status().isOk())
-            .andExpect(view().name("recipe/recipeform"))
-            .andExpect(model().attributeExists("recipe"));
+                .andExpect(status().isOk())
+                .andExpect(view().name("recipe/recipeform"))
+                .andExpect(model().attributeExists("recipe"));
     }
 
     @Test
