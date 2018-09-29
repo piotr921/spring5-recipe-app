@@ -12,6 +12,7 @@ import guru.springframework.converters.RecipeToRecipeCommand;
 import guru.springframework.converters.UnitOfMeasureCommandToUnitOfMeasure;
 import guru.springframework.converters.UnitOfMeasureToUnitOfMeasureCommand;
 import guru.springframework.domain.Recipe;
+import guru.springframework.exceptions.NotFoundException;
 import guru.springframework.repositories.RecipeRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,10 +30,10 @@ import static org.mockito.Mockito.*;
 
 public class RecipeServiceImplTest {
 
-    RecipeServiceImpl recipeService;
+    private RecipeServiceImpl recipeService;
 
     @Mock
-    RecipeRepository recipeRepository;
+    private RecipeRepository recipeRepository;
 
     @Before
     public void setup() {
@@ -86,10 +87,18 @@ public class RecipeServiceImplTest {
         Long idToDelete = 2L;
         recipeService.deleteById(idToDelete);
 
-        // when
-
         // then
         verify(recipeRepository, times(1)).deleteById(anyLong());
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void shouldThrowExceptionWhenRecipeIdNotFound() {
+        //given
+        Optional<Recipe> recipe = Optional.empty();
+        when(recipeRepository.findById(anyLong())).thenReturn(recipe);
+
+        //when
+        recipeService.findById(1L);
     }
 
     @Test
